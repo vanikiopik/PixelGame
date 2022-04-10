@@ -19,9 +19,6 @@ public class PlayerMovement : MonoBehaviour
     public int allowJumps;
     private int jumpCount = 2;
 
-    //To make sprite flips
-    bool isRight = true;
-
 
     void Start()
     {
