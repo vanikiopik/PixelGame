@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     
     Rigidbody2D rb;
-    //Animator animator;
+    Animator animator;
     SpriteRenderer sr;
 
     // Fields for isGrounded method
@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();    
-        //animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         jumpCount = 0;
     }
 
@@ -33,19 +33,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetAxis("Horizontal") == 0)
         {
-            //animator.SetInteger("Dir", 0);  // Playing IDLE animation
+            animator.Play("Idle");
         }
         else if (Input.GetAxis("Horizontal") > 0)
         {
             rb.velocity = new Vector2(1f, rb.velocity.y);
-            //transform.localRotation = Quaternion.Euler(0, 0, 0);
-            //animator.SetInteger("Dir", 1);  // Sets RUN animation
+            animator.Play("Run");
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
             rb.velocity = new Vector2(-1f, rb.velocity.y);
-            //transform.localRotation = Quaternion.Euler(0, 180, 0);  // Rotating sprite to other side
-            //animator.SetInteger("Dir", 1);  //Sets RUN animation
+            animator.Play("Run");
         }
     }
     public void FlipY(bool isLeft)

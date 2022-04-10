@@ -23,6 +23,7 @@ public class FollowToCursor : MonoBehaviour
        sprite = GetComponent<SpriteRenderer>();
     }
 
+
     void Update()
     {
         //Gun will fillow to the crosshair

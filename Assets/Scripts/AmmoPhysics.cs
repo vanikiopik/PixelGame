@@ -10,7 +10,7 @@ public class AmmoPhysics : MonoBehaviour
 
     void Start()
     {
-        Invoke("DestroyAmmo", destroyTime);
+        //Invoke("DestroyAmmo", destroyTime);
     }
 
     void Update() 
