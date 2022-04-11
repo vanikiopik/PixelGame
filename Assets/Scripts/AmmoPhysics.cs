@@ -6,6 +6,7 @@ public class AmmoPhysics : MonoBehaviour
 {
     [SerializeField]
     private float speed;
+
     public float destroyTime; //Lifetime of object
 
     void Start()
@@ -16,6 +17,16 @@ public class AmmoPhysics : MonoBehaviour
     void Update() 
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime);
+
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.otherRigidbody)
+        {
+            DestroyAmmo();
+        }
     }
 
     void DestroyAmmo()

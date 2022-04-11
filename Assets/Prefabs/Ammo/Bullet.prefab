@@ -145,4 +145,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  colider: {fileID: 586416818865919336}
   destroyTime: 5
