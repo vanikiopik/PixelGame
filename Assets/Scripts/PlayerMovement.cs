@@ -18,6 +18,11 @@ public class PlayerMovement : MonoBehaviour
     public int allowJumps;
     private int jumpCount = 2;
 
+    //For jumps cooldown 
+    private float timeJump;
+    [SerializeField]
+    private float jumpCooldownTime;
+
 
     void Start()
     {
@@ -78,9 +83,17 @@ public class PlayerMovement : MonoBehaviour
     //NEED TO FIX TELEPORTING INTO WALLS
     void Gap(int dir)
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (timeJump <= 0)
         {
-            transform.position += new Vector3(dir, 0f, 0f);
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                transform.position += new Vector3(dir, 0f, 0f);
+                timeJump = jumpCooldownTime;
+            }
+        }
+        else
+        {
+            timeJump -= Time.deltaTime;
         }
     }
 
@@ -92,6 +105,13 @@ public class PlayerMovement : MonoBehaviour
         //Gap();
     }
 
+    /*private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Finish")
+        {
+            Debug.Log("Damage");
+        }
+    }*/
 
     void FixedUpdate()
     {
