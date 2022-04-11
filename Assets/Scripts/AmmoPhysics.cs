@@ -14,15 +14,16 @@ public class AmmoPhysics : MonoBehaviour
         Invoke("DestroyAmmo", destroyTime);
     }
 
-    void Update() 
+    void FixedUpdate() 
     {
+        //Better using fixedUpdate to move bullets 
         transform.Translate(Vector2.right * speed * Time.deltaTime);
-
     }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //Destroy object when it'll touch other RigBody border
         if (collision.otherRigidbody)
         {
             DestroyAmmo();

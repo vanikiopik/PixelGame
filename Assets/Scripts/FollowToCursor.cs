@@ -35,6 +35,7 @@ public class FollowToCursor : MonoBehaviour
         sprite.flipY = isLeft;
         parent.FlipY(isLeft);
 
+
         //Shooting 
         if (timeShoot <= 0)
         {

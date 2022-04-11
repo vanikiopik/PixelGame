@@ -108,6 +108,8 @@ WHATSNEW* text
 *.pdf binary
 *.physicMaterial binary
 *.physicmaterial binary
+*.physicsMaterial2D binary
+*.physicsmaterial2d binary
 *.png binary
 *.ps binary
 *.psd binary

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    
     Rigidbody2D rb;
     Animator animator;
     SpriteRenderer sr;
@@ -38,24 +37,28 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetAxis("Horizontal") > 0)
         {
             rb.velocity = new Vector2(1f, rb.velocity.y);
+            Gap(1);             
             animator.Play("Run");
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
             rb.velocity = new Vector2(-1f, rb.velocity.y);
+            Gap(-1);
             animator.Play("Run");
         }
     }
+
+
     public void FlipY(bool isLeft)
     {
         sr.flipX = isLeft;
     }
 
+
     void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            animator.Play("Jump");
             // First jump
             if (isGrounded)
             {
@@ -71,10 +74,22 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    //Telepors player, int dir need to choose the direction of teleporting
+    //NEED TO FIX TELEPORTING INTO WALLS
+    void Gap(int dir)
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            transform.position += new Vector3(dir, 0f, 0f);
+        }
+    }
+
+
     void Update()
     {
         Move();
         Jump();
+        //Gap();
     }
 
 
