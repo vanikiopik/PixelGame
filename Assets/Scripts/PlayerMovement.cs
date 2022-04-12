@@ -11,17 +11,17 @@ public class PlayerMovement : MonoBehaviour
     // Fields for isGrounded method
     public bool isGrounded;
     public Transform groundCheck;
-    private float checkRadius = 0.6f;
+    private float _checkRadius = 0.6f;
     public LayerMask whatIsGround;
 
     // Fields for double-jumps
     public int allowJumps;
-    private int jumpCount = 2;
+    private int _jumpCount = 2;
 
     //For jumps cooldown 
-    private float timeJump;
+    private float _timeJump;
     [SerializeField]
-    private float jumpCooldownTime;
+    private float _jumpCooldownTime;
 
 
     void Start()
@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();    
         animator = GetComponent<Animator>();
-        jumpCount = 0;
+        _jumpCount = 0;
     }
 
 
@@ -70,10 +70,10 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = new Vector2(0f, 4f);
             }
             // Second jump
-            else if (jumpCount < allowJumps - 1)
+            else if (_jumpCount < allowJumps - 1)
             {
                 rb.velocity = new Vector2(0f, 4f);
-                jumpCount++;
+                _jumpCount++;
             }
         }
     }
@@ -83,17 +83,17 @@ public class PlayerMovement : MonoBehaviour
     //NEED TO FIX TELEPORTING INTO WALLS
     void Gap(int dir)
     {
-        if (timeJump <= 0)
+        if (_timeJump <= 0)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 transform.position += new Vector3(dir, 0f, 0f);
-                timeJump = jumpCooldownTime;
+                _timeJump = _jumpCooldownTime;
             }
         }
         else
         {
-            timeJump -= Time.deltaTime;
+            _timeJump -= Time.deltaTime;
         }
     }
 
@@ -116,10 +116,10 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         //State for checking object collision on the ground
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, _checkRadius, whatIsGround);
         if (isGrounded)
         {
-            jumpCount = 0;
+            _jumpCount = 0;
         }
     }
 }

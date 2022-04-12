@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     public Transform target;
     public float smoothTime = 0.2f;
-    private Vector2 velocity = Vector2.zero;
+    private Vector2 _velocity = Vector2.zero;
     
     void FixedUpdate()
     {
@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
         if (target)
         {
             Vector2 pos = new Vector2(target.position.x, target.position.y);
-            transform.position = Vector2.SmoothDamp(transform.position, target.position, ref velocity, smoothTime);
+            transform.position = Vector2.SmoothDamp(transform.position, target.position, ref _velocity, smoothTime);
         }
     }
 }
