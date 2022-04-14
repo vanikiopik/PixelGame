@@ -7,13 +7,14 @@ public class TokenPyus : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Destroy(gameObject);
+
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position = new Vector2(transform.position.x, Mathf.Sin(Time.fixedTime) / 4);
     }
 
 
