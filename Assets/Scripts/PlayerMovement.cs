@@ -5,121 +5,64 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody2D rb;
-    Animator animator;
     SpriteRenderer sr;
-
-    // Fields for isGrounded method
-    public bool isGrounded;
-    public Transform groundCheck;
-    private float checkRadius = 0.6f;
-    public LayerMask whatIsGround;
-
-    // Fields for double-jumps
-    public int allowJumps;
-    private int jumpCount = 2;
-
-    //For jumps cooldown 
-    private float timeJump;
-    [SerializeField]
-    private float jumpCooldownTime;
+    public Sprite[] spriteArray;
+    [SerializeField] bool isJetpack;
+    [SerializeField] private float jumpForce = 100.0f;  
+    [SerializeField] private float speed = 100.0f;  
 
 
     void Start()
     {
+       isJetpack = false;
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();    
-        animator = GetComponent<Animator>();
-        jumpCount = 0;
-    }
-
-
-    void Move()
-    {
-        if (Input.GetAxis("Horizontal") == 0)
-        {
-            animator.Play("Idle");
-        }
-        else if (Input.GetAxis("Horizontal") > 0)
-        {
-            rb.velocity = new Vector2(1f, rb.velocity.y);
-            Gap(1);             
-            animator.Play("Run");
-        }
-        else if (Input.GetAxis("Horizontal") < 0)
-        {
-            rb.velocity = new Vector2(-1f, rb.velocity.y);
-            Gap(-1);
-            animator.Play("Run");
-        }
-    }
-
-
-    public void FlipY(bool isLeft)
-    {
-        sr.flipX = isLeft;
-    }
-
-
-    void Jump()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // First jump
-            if (isGrounded)
-            {
-                rb.velocity = new Vector2(0f, 4f);
-            }
-            // Second jump
-            else if (jumpCount < allowJumps - 1)
-            {
-                rb.velocity = new Vector2(0f, 4f);
-                jumpCount++;
-            }
-        }
-    }
-
-
-    //Telepors player, int dir need to choose the direction of teleporting
-    //NEED TO FIX TELEPORTING INTO WALLS
-    void Gap(int dir)
-    {
-        if (timeJump <= 0)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                transform.position += new Vector3(dir, 0f, 0f);
-                timeJump = jumpCooldownTime;
-            }
-        }
-        else
-        {
-            timeJump -= Time.deltaTime;
-        }
+        sr = GetComponent<SpriteRenderer>();
     }
 
 
     void Update()
     {
-        Move();
-        Jump();
-        //Gap();
+        if (Input.GetKey(KeyCode.D))
+        {
+            sr.sprite = spriteArray[1];
+            rb.velocity = new Vector2(speed * Time.deltaTime, rb.velocity.y);
+            sr.flipX = false;    
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            sr.sprite = spriteArray[1];
+            rb.velocity = new Vector2(-speed * Time.deltaTime, rb.velocity.y);
+            sr.flipX = true;
+        }
+        if (Input.GetKey(KeyCode.Space) && !isJetpack)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 5f);
+            sr.flipX = false;
+        }
+
+
+
+
+        if (isJetpack)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                sr.sprite = spriteArray[0];
+              rb.AddForce(new Vector3(0, jumpForce, 0));
+            }
+        }
+
     }
 
-    /*private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Finish")
-        {
-            Debug.Log("Damage");
-        }
-    }*/
 
-    void FixedUpdate()
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        //State for checking object collision on the ground
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-        if (isGrounded)
+        if (collision.gameObject.name == "Jetpack")
         {
-            jumpCount = 0;
+            isJetpack = true;
+            Debug.Log(isJetpack);
         }
     }
 }
+
