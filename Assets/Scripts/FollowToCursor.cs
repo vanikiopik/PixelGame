@@ -7,20 +7,20 @@ public class FollowToCursor : MonoBehaviour
 {
     public Transform spawnPos;  //Spawn point of bullets
     public GameObject target;  //Crosshair
-    private PlayerMovement parent;
-    private SpriteRenderer sprite;
+    private PlayerMovement _parent;
+    private SpriteRenderer _sprite;
     public Rigidbody2D bullet;
 
 
-    private float timeShoot;  
+    private float _timeShoot;  
     [SerializeField]
-    private float shootCooldown; //KD between shoots
+    private float _shootCooldown; //KD between shoots
 
 
     void Start()
     {
-       parent =  GetComponentInParent<PlayerMovement>();
-       sprite = GetComponent<SpriteRenderer>();
+       _parent =  GetComponentInParent<PlayerMovement>();
+       _sprite = GetComponent<SpriteRenderer>();
     }
 
 
@@ -32,22 +32,22 @@ public class FollowToCursor : MonoBehaviour
 
         //Flip player's sprite 
         bool isLeft = dir.x < 0;
-        sprite.flipY = isLeft;
-        parent.FlipY(isLeft);
+        _sprite.flipY = isLeft;
+        _parent.FlipY(isLeft);
 
 
         //Shooting 
-        if (timeShoot <= 0)
+        if (_timeShoot <= 0)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 Instantiate(bullet, spawnPos.position, transform.rotation);
-                timeShoot = shootCooldown;
+                _timeShoot = _shootCooldown;
             }
         }
         else
         {
-            timeShoot -= Time.deltaTime;  
+            _timeShoot -= Time.deltaTime;  
         }
     }
 }
