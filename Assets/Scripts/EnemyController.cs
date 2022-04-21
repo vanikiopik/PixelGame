@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour, IDamagable
 {
-    public Transform target;  //Get player pos
-    private SpriteRenderer sr;
+    private GameObject _target;  //Get player pos
+    private SpriteRenderer _sr;
 
     [SerializeField]
     private int _health = 100;
@@ -13,27 +13,28 @@ public class EnemyController : MonoBehaviour, IDamagable
 
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
+        _sr = GetComponent<SpriteRenderer>();
+        _target = GameObject.FindWithTag("Player");
     }
 
 
     void Update()
     {
         float speed = 1f;
-        Vector3 dir = target.position - transform.position;
+        Vector3 dir = _target.transform.position - transform.position;
         bool isLeft = dir.x < 0f;
         transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
-        sr.flipY = isLeft;
+        _sr.flipY = isLeft;
 
 
         //Checking for close distance to object
-        if(Vector3.Distance(target.position, transform.position) <= 0.8f)
+        if(Vector3.Distance(_target.transform.position, transform.position) <= 0.8f)
         {
             speed = 0f;
         }
 
         //Moving to the object
-        transform.position += (target.transform.position - transform.position).normalized * Time.deltaTime * speed;
+        transform.position += (_target.transform.position - transform.position).normalized * Time.deltaTime * speed;
     }
 
 
@@ -41,22 +42,19 @@ public class EnemyController : MonoBehaviour, IDamagable
     {
         if(collision.otherRigidbody)
         {
-            takeDamage();
+            takeDamage(20);
             Debug.Log("Hit");
         }
     }
 
 
     private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(target.position, target.position+ target.right);
-        Gizmos.DrawRay(transform.position, target.position);
+    { 
     }
 
-    public void takeDamage()
+    public void takeDamage(int damage)
     {
-        _health = _health -20;
+        _health -= damage;
         if (_health <= 0)
         {
             Destroy(gameObject);

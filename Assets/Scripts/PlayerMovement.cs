@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();    
+        sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         _jumpCount = 0;
     }
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetAxis("Horizontal") > 0)
         {
             rb.velocity = new Vector2(1f, rb.velocity.y);
-            Gap(1);             
+            Gap(1);
             animator.Play("Run");
         }
         else if (Input.GetAxis("Horizontal") < 0)
@@ -105,21 +105,22 @@ public class PlayerMovement : MonoBehaviour
         //Gap();
     }
 
-    /*private void OnCollisionEnter2D(Collision2D collision)
+  /*  private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Finish")
+        if (collision.gameObject.tag == "Enemy")
         {
-            Debug.Log("Damage");
         }
     }*/
 
+
     void FixedUpdate()
     {
-        //State for checking object collision on the ground
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, _checkRadius, whatIsGround);
-        if (isGrounded)
-        {
-            _jumpCount = 0;
-        }
+         //State for checking object collision on the ground
+         //Need to try OvelapCube
+         isGrounded = Physics2D.OverlapCircle(groundCheck.position, _checkRadius, whatIsGround);
+         if (isGrounded)
+         {
+             _jumpCount = 0;
+         }
     }
 }
